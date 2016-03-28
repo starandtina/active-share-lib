@@ -16,8 +16,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "prepublish": "npm run compile",
-    "compile": "npm run clean && node --harmony bin/compile",
-    "www": "npm run compile && browser-sync start --files 'dist/**/*' --server dist/"
+    "compile": "npm run clean && node --harmony bin/compile"
   },
   "keywords": [],
   "author": "Khalil Zhang <kandmforever@126.com> (http://starandtina.github.io/)",
