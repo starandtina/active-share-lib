@@ -24,7 +24,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "prepublish": "npm run compile",
     "precompile": "npm run clean",
-    "compile": "npm run clean && node --harmony bin/compile",
+    "compile": "node --harmony bin/compile",
     "compile:watch": "watch 'npm run compile' ./src/"
   },
   "keywords": [],
