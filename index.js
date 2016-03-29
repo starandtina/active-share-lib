@@ -1,5 +1,7 @@
-import BackboneBaseView from './src/backbone.baseview';
+import BackboneBaseView from './src/backbone.baseview'
+import Reflux from './src/reflux'
 
 module.exports = {
-  BackboneBaseView: BackboneBaseView
+  BackboneBaseView: BackboneBaseView,
+  Reflux: Reflux
 };

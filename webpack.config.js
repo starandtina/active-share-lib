@@ -15,7 +15,8 @@ module.exports = {
   externals: {
     "jquery": "jquery",
     "backbone": "backbone",
-    "_": "underscore",
+    "underscore": "underscore",
+    "HTMLWrapper": "HTMLWrapper"
   },
   resolve: {
     extensions: ["", ".js"],
@@ -27,12 +28,12 @@ module.exports = {
       exclude: /(node_modules|bower_components)/,
       loader: 'babel',
       query: {
-        presets: ['es2015']
+        presets: ['es2015', 'stage-0']
       }
     }]
   },
   plugins: [
     AddModuleExports,
-    new webpack.optimize.UglifyJsPlugin()
+    // new webpack.optimize.UglifyJsPlugin()
   ]
 };
