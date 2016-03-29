@@ -409,7 +409,7 @@ class BackboneBaseView extends Backbone.View {
 
     var childViews = this.getChildViews();
 
-    delete this.childViews[name];
+    delete childViews[name];
   }
 
   getChildViews() {

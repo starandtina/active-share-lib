@@ -4,7 +4,9 @@ import AddModuleExports from 'babel-plugin-add-module-exports';
 
 module.exports = {
   entry: {
-    ActiveShareLib: ['./index.js']
+    ActiveShareLib: ['./index.js'],
+    BackboneBaseView: ['./src/backbone.baseview.js'],
+    Reflux: ['./src/reflux.js']
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -28,12 +30,16 @@ module.exports = {
       exclude: /(node_modules|bower_components)/,
       loader: 'babel',
       query: {
-        presets: ['es2015', 'stage-0']
+        presets: ['es2015', 'stage-0'],
+        plugins: ["add-module-exports"]
       }
     }]
   },
   plugins: [
-    AddModuleExports,
-    // new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
   ]
 };
