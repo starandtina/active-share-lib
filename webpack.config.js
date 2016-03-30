@@ -14,10 +14,12 @@ module.exports = {
     library: 'ActiveShareLib',
     libraryTarget: 'umd'
   },
+  // `externals` allows you to specify dependencies for your library that are not resolved by webpack, 
+  // but become dependencies of the output. This means they are imported from the environment during runtime.
   externals: {
-    "jquery": "jquery",
-    "backbone": "backbone",
-    "underscore": "underscore",
+    "jquery": "jQuery",
+    "backbone": "Backbone",
+    "underscore": "_",
     "HTMLWrapper": "HTMLWrapper"
   },
   resolve: {
@@ -36,10 +38,10 @@ module.exports = {
     }]
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   }
+    // })
   ]
 };
