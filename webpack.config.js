@@ -6,7 +6,8 @@ module.exports = {
   entry: {
     ActiveShareLib: ['./index.js'],
     BackboneBaseView: ['./src/backbone.baseview.js'],
-    Reflux: ['./src/reflux.js']
+    Reflux: ['./src/reflux.js'],
+    'co-example': ['./src/co-example.js']
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -17,9 +18,9 @@ module.exports = {
   // `externals` allows you to specify dependencies for your library that are not resolved by webpack, 
   // but become dependencies of the output. This means they are imported from the environment during runtime.
   externals: {
-    "jquery": "jQuery",
-    "backbone": "Backbone",
-    "underscore": "_",
+    "jquery": "jquery",
+    "backbone": "backbone",
+    "underscore": "underscore",
     "HTMLWrapper": "HTMLWrapper"
   },
   resolve: {
@@ -38,10 +39,10 @@ module.exports = {
     }]
   },
   plugins: [
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false
-    //   }
-    // })
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
   ]
 };
