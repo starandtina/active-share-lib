@@ -7,7 +7,7 @@ module.exports = {
     ActiveShareLib: ['./index.js'],
     BackboneBaseView: ['./src/backbone.baseview.js'],
     Reflux: ['./src/reflux.js'],
-    'co-example': ['./src/co-example.js']
+    'async-render': ['babel-polyfill', './src/async-render.js']
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -34,15 +34,15 @@ module.exports = {
       loader: 'babel',
       query: {
         presets: ['es2015', 'stage-0'],
-        plugins: ["add-module-exports"]
+        plugins: ["add-module-exports", "syntax-async-generators"]
       }
     }]
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   }
+    // })
   ]
 };
