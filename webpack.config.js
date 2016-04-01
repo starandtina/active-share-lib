@@ -21,7 +21,7 @@ module.exports = {
     "jquery": "jquery",
     "backbone": "backbone",
     "underscore": "underscore",
-    "html-wrapper": "HTMLWrapper"
+    "html-wrapper": "html-wrapper"
   },
   resolve: {
     extensions: ["", ".js"],
