@@ -1,4 +1,4 @@
-import Bakcbone from 'backbone'
+import Backbone from 'backbone'
 import $ from 'jquery'
 import _ from 'underscore'
 import active from 'HTMLWrapper'
@@ -34,8 +34,11 @@ Backbone.View.prototype.close = function () {
   stopListening.call(this, this.model);
   stopListening.call(this, this.collection);
 
-  // Remove `this.el` and related events from DOM
-  this.remove();
+  // Remove this view by taking the element out of the DOM, and removing any
+  // applicable Backbone.Events listeners.
+  this.$el.remove();
+  this.stopListening();
+
   // Off any events that current view is bound to
   this.off();
 
@@ -366,8 +369,7 @@ class BackboneBaseView extends Backbone.View {
     }, {});
   }
 
-  // Refer to **fnd/arch/events/NavExitEvent** for argument of navExitEvent
-  exit(navExitEvent) {
+  remove() {
     // Disposing view hierarchies
     this.removeChildViews();
     this.childViews = null;
@@ -383,13 +385,15 @@ class BackboneBaseView extends Backbone.View {
     // Removing current view out of the DOM
     // Stop listening any events binding through `listenTo`
     this.close();
+  }
 
-    // Trigger `remove` event
-    this.trigger('remove');
+  // Refer to **fnd/arch/events/NavExitEvent** for argument of navExitEvent
+  exit(navExitEvent) {
+    this.remove();
 
     // 1. Empty **#navigationContainer**
     // 2. Navigate to a brand path
-    navExitEvent.complete();
+    navExitEvent && navExitEvent.complete();
   }
 
   removeChildViews() {

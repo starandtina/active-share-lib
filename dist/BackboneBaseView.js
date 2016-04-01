@@ -124,8 +124,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  stopListening.call(this, this.model);
 	  stopListening.call(this, this.collection);
 
-	  // Remove `this.el` and related events from DOM
-	  this.remove();
+	  // Remove this view by taking the element out of the DOM, and removing any
+	  // applicable Backbone.Events listeners.
+	  this.$el.remove();
+	  this.stopListening();
+
 	  // Off any events that current view is bound to
 	  this.off();
 
@@ -502,12 +505,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return memo;
 	      }, {});
 	    }
-
-	    // Refer to **fnd/arch/events/NavExitEvent** for argument of navExitEvent
-
 	  }, {
-	    key: 'exit',
-	    value: function exit(navExitEvent) {
+	    key: 'remove',
+	    value: function remove() {
 	      // Disposing view hierarchies
 	      this.removeChildViews();
 	      this.childViews = null;
@@ -523,13 +523,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // Removing current view out of the DOM
 	      // Stop listening any events binding through `listenTo`
 	      this.close();
+	    }
 
-	      // Trigger `remove` event
-	      this.trigger('remove');
+	    // Refer to **fnd/arch/events/NavExitEvent** for argument of navExitEvent
+
+	  }, {
+	    key: 'exit',
+	    value: function exit(navExitEvent) {
+	      this.remove();
 
 	      // 1. Empty **#navigationContainer**
 	      // 2. Navigate to a brand path
-	      navExitEvent.complete();
+	      navExitEvent && navExitEvent.complete();
 	    }
 	  }, {
 	    key: 'removeChildViews',
