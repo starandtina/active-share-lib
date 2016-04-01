@@ -1,7 +1,7 @@
 import Backbone from 'backbone'
 import $ from 'jquery'
 import _ from 'underscore'
-import active from 'HTMLWrapper'
+import active from 'html-wrapper'
 
 
 function stopListening(target) {
