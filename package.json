@@ -29,6 +29,7 @@
     "semantic-release": "^4.3.5",
     "tap-spec": "^4.1.1",
     "tape": "^4.5.1",
+    "validate-commit-msg": "2.5.0",
     "watch": "^0.17.1",
     "webpack": "1.12.14"
   },
@@ -50,6 +51,7 @@
       "path": "node_modules/cz-conventional-changelog"
     },
     "ghooks": {
+      "commit-msg": "validate-commit-msg",
       "pre-commit": "npm run test"
     }
   },
