@@ -7,6 +7,7 @@ module.exports = {
     ActiveShareLib: ['./index.js'],
     BackboneBaseView: ['./src/backbone.baseview.js'],
     Reflux: ['./src/reflux.js'],
+    util: ['./src/util.js'],
     'async-render': ['babel-polyfill', './src/async-render.js']
   },
   output: {
