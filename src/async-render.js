@@ -1,51 +1,75 @@
 import 'babel-polyfill'
-import fetch from 'isomorphic-fetch'
 
-function renderComponent() {
+import $ from 'jquery'
+import requirejs from 'requirejs'
+
+
+function renderComponent($componentDOM) {
   return new Promise((resolve, reject) => {
-    setTimeout(function () {
-      resolve('Hello World!')
-    }, 1000);
+    const renderer = $componentDOM.data('render');
+
+    requirejs([renderer], function (Component) {
+      const isRendered = $componentDOM.data('rendered');
+
+      if (!isRendered) {
+        Component.render({
+          get$Html() {
+            return $componentDOM;
+          }
+        });
+        $componentDOM.data('rendered', true);
+      }
+
+      resolve({
+        Component: Component,
+        $componentDOM: $componentDOM
+      });
+    });
   });
 }
 
-export default async function render() {
-  var file = await renderComponent();
-  main();
-  console.log(file);
-}
+function createQueue($el) {
+  let $queue = $el.find('[data-render]');
 
-function getUser(cb) {
-  return new Promise((resolve, reject) => {
-    fetch('https://randomuser.me/api/')
-      .then(response => response.json())
-      .then(quote => {
-        if (typeof cb === 'function') {
-          cb(quote)
-        }
-        resolve(quote)
-      })
-      .catch(reject);
+  $el.each(function (index, componentDOM) {
+    const $componentDOM = $(componentDOM);
+    const componentRenderer = $componentDOM.data('render');
+
+    if (componentRenderer) {
+      $queue = $queue.add($componentDOM);
+    }
   });
+
+  return $queue.sort(function (a, b) {
+    const aDepth = $(a).parentsUntil($el.parent()).length;
+    const bDepth = $(b).parentsUntil($el.parent()).length;
+
+    // If `b` is more deeper than `a` in DOM tree, then it will be placed after `a`
+    return aDepth - bDepth;
+  }).toArray();
 }
 
-function printMessage(msg) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      console.log(msg);
-      resolve(msg);
-    }, 2000);
-  });
-}
-
-async function main() {
+export default async function render($el, callback) {
   try {
-    console.log('Gonna get a quote');
-    const quote = await getUser();
-    console.log(quote);
-    await printMessage('test msg');
-    console.log('a message was printed after 2s');
-  } catch (error) {
-    console.error(error);
+    const componentsQueue = createQueue($el);
+    const renderPromises = componentsQueue.map((componentDOM) => renderComponent($(componentDOM)));
+    const components = await Promise.all(renderPromises);
+
+    for (let c of components) {
+      const ComponentConstructor = c.Component;
+      const $componentDOM = c.$componentDOM;
+
+      const componentInstance = new ComponentConstructor($componentDOM);
+      $componentDOM.data('_impl', componentInstance);
+
+      componentInstance.initialize();
+    }
+
+    if (typeof callback === 'function') {
+      callback(components);
+    }
+
+  } catch (err) {
+    console.error(err);
   }
 }
