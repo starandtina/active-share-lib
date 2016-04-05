@@ -3,7 +3,6 @@
   "description": "",
   "main": "dist/ActiveShareLib.js",
   "dependencies": {
-    "babel-polyfill": "6.7.4",
     "backbone": "^1.3.2",
     "eventemitter3": "^1.2.0",
     "html-wrapper": "^1.0.0",
@@ -13,6 +12,7 @@
   "devDependencies": {
     "amdefine": "1.0.0",
     "babel-core": "6.7.2",
+    "babel-polyfill": "6.7.4",
     "babel-loader": "6.2.4",
     "babel-plugin-add-module-exports": "0.1.2",
     "babel-plugin-syntax-async-functions": "^6.5.0",
@@ -43,7 +43,7 @@
     "precompile": "npm run clean",
     "compile": "node --harmony bin/compile",
     "compile:watch": "watch 'npm run compile' ./src/",
-    "test": "tape -r babel-register -r jsdom-global/register test/**/*.test.js | tap-spec"
+    "test": "tape -r babel-polyfill -r babel-register -r jsdom-global/register test/**/*.test.js | tap-spec"
   },
   "keywords": [],
   "author": "Khalil Zhang <kandmforever@126.com> (http://starandtina.github.io/)",

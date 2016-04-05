@@ -7790,6 +7790,130 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
+	var render = function () {
+	  var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2($el, callback) {
+	    var _this = this;
+
+	    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	      while (1) {
+	        switch (_context2.prev = _context2.next) {
+	          case 0:
+	            _context2.prev = 0;
+	            return _context2.delegateYield(regeneratorRuntime.mark(function _callee() {
+	              var componentsQueue, renderPromises, components, componentsMap, callbackContext, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, c, ComponentConstructor, $componentDOM, componentId, componentInstance;
+
+	              return regeneratorRuntime.wrap(function _callee$(_context) {
+	                while (1) {
+	                  switch (_context.prev = _context.next) {
+	                    case 0:
+	                      componentsQueue = createRenderQueue($el);
+	                      renderPromises = componentsQueue.map(function (componentDOM) {
+	                        return renderComponent((0, _jquery2.default)(componentDOM));
+	                      });
+	                      _context.next = 4;
+	                      return Promise.all(renderPromises);
+
+	                    case 4:
+	                      components = _context.sent;
+	                      componentsMap = {};
+	                      callbackContext = {
+	                        components: components,
+	                        getComponents: function getComponents() {
+	                          return componentsMap;
+	                        }
+	                      };
+	                      _iteratorNormalCompletion = true;
+	                      _didIteratorError = false;
+	                      _iteratorError = undefined;
+	                      _context.prev = 10;
+
+
+	                      for (_iterator = components[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                        c = _step.value;
+	                        ComponentConstructor = c.Component;
+	                        $componentDOM = c.$componentDOM;
+	                        componentId = $componentDOM.attr('id');
+	                        componentInstance = new ComponentConstructor($componentDOM);
+
+
+	                        $componentDOM.data('_impl', componentInstance);
+
+	                        if (componentId) {
+	                          componentsMap[componentId] = componentInstance;
+	                        }
+
+	                        componentInstance.initialize(callbackContext);
+	                      }
+
+	                      _context.next = 18;
+	                      break;
+
+	                    case 14:
+	                      _context.prev = 14;
+	                      _context.t0 = _context['catch'](10);
+	                      _didIteratorError = true;
+	                      _iteratorError = _context.t0;
+
+	                    case 18:
+	                      _context.prev = 18;
+	                      _context.prev = 19;
+
+	                      if (!_iteratorNormalCompletion && _iterator.return) {
+	                        _iterator.return();
+	                      }
+
+	                    case 21:
+	                      _context.prev = 21;
+
+	                      if (!_didIteratorError) {
+	                        _context.next = 24;
+	                        break;
+	                      }
+
+	                      throw _iteratorError;
+
+	                    case 24:
+	                      return _context.finish(21);
+
+	                    case 25:
+	                      return _context.finish(18);
+
+	                    case 26:
+	                      if (typeof callback === 'function') {
+	                        callback(callbackContext);
+	                      }
+
+	                    case 27:
+	                    case 'end':
+	                      return _context.stop();
+	                  }
+	                }
+	              }, _callee, _this, [[10, 14, 18, 26], [19,, 21, 25]]);
+	            })(), 't0', 2);
+
+	          case 2:
+	            _context2.next = 7;
+	            break;
+
+	          case 4:
+	            _context2.prev = 4;
+	            _context2.t1 = _context2['catch'](0);
+
+	            console.error(_context2.t1);
+
+	          case 7:
+	          case 'end':
+	            return _context2.stop();
+	        }
+	      }
+	    }, _callee2, this, [[0, 4]]);
+	  }));
+
+	  return function render(_x, _x2) {
+	    return ref.apply(this, arguments);
+	  };
+	}();
+
 	__webpack_require__(14);
 
 	var _jquery = __webpack_require__(4);
@@ -7807,6 +7931,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function renderComponent($componentDOM) {
 	  return new Promise(function (resolve, reject) {
 	    var renderer = $componentDOM.data('render');
+	    var isCallingAddToRenderQueue = false;
 
 	    (0, _requirejs2.default)([renderer], function (Component) {
 	      var isRendered = $componentDOM.data('rendered');
@@ -7815,20 +7940,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	        Component.render({
 	          get$Html: function get$Html() {
 	            return $componentDOM;
-	          }
+	          },
+	          getElement: function getElement() {
+	            return $componentDOM;
+	          },
+	          render: function render($el) {},
+	          addToRenderQueue: function addToRenderQueue($el) {
+	            isCallingAddToRenderQueue = true;
+	            render($el, function () {
+	              isCallingAddToRenderQueue = false;
+	              resolve({
+	                Component: Component,
+	                $componentDOM: $componentDOM
+	              });
+	            });
+	          },
+	          complete: function complete() {}
 	        });
 	        $componentDOM.data('rendered', true);
 	      }
 
-	      resolve({
-	        Component: Component,
-	        $componentDOM: $componentDOM
-	      });
+	      if (!isCallingAddToRenderQueue) {
+	        resolve({
+	          Component: Component,
+	          $componentDOM: $componentDOM
+	        });
+	      }
 	    });
 	  });
 	}
 
-	function createQueue($el) {
+	function createRenderQueue($el) {
 	  var $queue = $el.find('[data-render]');
 
 	  $el.each(function (index, componentDOM) {
@@ -7849,103 +7991,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }).toArray();
 	}
 
-	exports.default = function () {
-	  var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee($el, callback) {
-	    var componentsQueue, renderPromises, components, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, c, ComponentConstructor, $componentDOM, componentInstance;
-
-	    return regeneratorRuntime.wrap(function _callee$(_context) {
-	      while (1) {
-	        switch (_context.prev = _context.next) {
-	          case 0:
-	            _context.prev = 0;
-	            componentsQueue = createQueue($el);
-	            renderPromises = componentsQueue.map(function (componentDOM) {
-	              return renderComponent((0, _jquery2.default)(componentDOM));
-	            });
-	            _context.next = 5;
-	            return Promise.all(renderPromises);
-
-	          case 5:
-	            components = _context.sent;
-	            _iteratorNormalCompletion = true;
-	            _didIteratorError = false;
-	            _iteratorError = undefined;
-	            _context.prev = 9;
-
-
-	            for (_iterator = components[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	              c = _step.value;
-	              ComponentConstructor = c.Component;
-	              $componentDOM = c.$componentDOM;
-	              componentInstance = new ComponentConstructor($componentDOM);
-
-	              $componentDOM.data('_impl', componentInstance);
-
-	              componentInstance.initialize();
-	            }
-
-	            _context.next = 17;
-	            break;
-
-	          case 13:
-	            _context.prev = 13;
-	            _context.t0 = _context['catch'](9);
-	            _didIteratorError = true;
-	            _iteratorError = _context.t0;
-
-	          case 17:
-	            _context.prev = 17;
-	            _context.prev = 18;
-
-	            if (!_iteratorNormalCompletion && _iterator.return) {
-	              _iterator.return();
-	            }
-
-	          case 20:
-	            _context.prev = 20;
-
-	            if (!_didIteratorError) {
-	              _context.next = 23;
-	              break;
-	            }
-
-	            throw _iteratorError;
-
-	          case 23:
-	            return _context.finish(20);
-
-	          case 24:
-	            return _context.finish(17);
-
-	          case 25:
-	            if (typeof callback === 'function') {
-	              callback(components);
-	            }
-
-	            _context.next = 31;
-	            break;
-
-	          case 28:
-	            _context.prev = 28;
-	            _context.t1 = _context['catch'](0);
-
-	            console.error(_context.t1);
-
-	          case 31:
-	          case 'end':
-	            return _context.stop();
-	        }
-	      }
-	    }, _callee, this, [[0, 28], [9, 13, 17, 25], [18,, 20, 24]]);
-	  }));
-
-	  function render(_x, _x2) {
-	    return ref.apply(this, arguments);
-	  }
-
-	  return render;
-	}();
-
+	exports.default = render;
 	module.exports = exports['default'];
 
 /***/ },

@@ -7,6 +7,7 @@ import requirejs from 'requirejs'
 function renderComponent($componentDOM) {
   return new Promise((resolve, reject) => {
     const renderer = $componentDOM.data('render');
+    let isCallingAddToRenderQueue = false;
 
     requirejs([renderer], function (Component) {
       const isRendered = $componentDOM.data('rendered');
@@ -14,21 +15,40 @@ function renderComponent($componentDOM) {
       if (!isRendered) {
         Component.render({
           get$Html() {
-            return $componentDOM;
-          }
+              return $componentDOM;
+            },
+            getElement() {
+              return $componentDOM;
+            },
+            render($el) {
+
+            },
+            addToRenderQueue($el) {
+              isCallingAddToRenderQueue = true;
+              render($el, () => {
+                isCallingAddToRenderQueue = false;
+                resolve({
+                  Component: Component,
+                  $componentDOM: $componentDOM
+                });
+              })
+            },
+            complete() {}
         });
         $componentDOM.data('rendered', true);
       }
 
-      resolve({
-        Component: Component,
-        $componentDOM: $componentDOM
-      });
+      if (!isCallingAddToRenderQueue) {
+        resolve({
+          Component: Component,
+          $componentDOM: $componentDOM
+        });
+      }
     });
   });
 }
 
-function createQueue($el) {
+function createRenderQueue($el) {
   let $queue = $el.find('[data-render]');
 
   $el.each(function (index, componentDOM) {
@@ -49,27 +69,40 @@ function createQueue($el) {
   }).toArray();
 }
 
-export default async function render($el, callback) {
+async function render($el, callback) {
   try {
-    const componentsQueue = createQueue($el);
+    const componentsQueue = createRenderQueue($el);
     const renderPromises = componentsQueue.map((componentDOM) => renderComponent($(componentDOM)));
     const components = await Promise.all(renderPromises);
+    const componentsMap = {};
+    const callbackContext = {
+      components: components,
+      getComponents() {
+        return componentsMap;
+      }
+    };
 
     for (let c of components) {
       const ComponentConstructor = c.Component;
       const $componentDOM = c.$componentDOM;
-
+      const componentId = $componentDOM.attr('id');
       const componentInstance = new ComponentConstructor($componentDOM);
+
       $componentDOM.data('_impl', componentInstance);
 
-      componentInstance.initialize();
+      if (componentId) {
+        componentsMap[componentId] = componentInstance;
+      }
+
+      componentInstance.initialize(callbackContext);
     }
 
     if (typeof callback === 'function') {
-      callback(components);
+      callback(callbackContext);
     }
-
   } catch (err) {
     console.error(err);
   }
 }
+
+export default render;
