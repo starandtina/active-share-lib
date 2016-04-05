@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
+		module.exports = factory(require("jquery"), require("require"));
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
+		define(["jquery", "require"], factory);
 	else if(typeof exports === 'object')
-		exports["ActiveShareLib"] = factory();
+		exports["ActiveShareLib"] = factory(require("jquery"), require("require"));
 	else
-		root["ActiveShareLib"] = factory();
-})(this, function() {
+		root["ActiveShareLib"] = factory(root["jquery"], root["require"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_305__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -62,7 +62,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */,
 /* 2 */,
 /* 3 */,
-/* 4 */,
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+
+/***/ },
 /* 5 */,
 /* 6 */,
 /* 7 */,
@@ -7785,529 +7790,215 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var main = function () {
-	  var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-	    var quote;
+	var render = function () {
+	  var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2($el, callback) {
+	    var _this = this;
+
 	    return regeneratorRuntime.wrap(function _callee2$(_context2) {
 	      while (1) {
 	        switch (_context2.prev = _context2.next) {
 	          case 0:
 	            _context2.prev = 0;
+	            return _context2.delegateYield(regeneratorRuntime.mark(function _callee() {
+	              var componentsQueue, renderPromises, components, componentsMap, callbackContext, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, c, ComponentConstructor, $componentDOM, componentId, componentInstance;
 
-	            console.log('Gonna get a quote');
-	            _context2.next = 4;
-	            return getUser();
+	              return regeneratorRuntime.wrap(function _callee$(_context) {
+	                while (1) {
+	                  switch (_context.prev = _context.next) {
+	                    case 0:
+	                      componentsQueue = createRenderQueue($el);
+	                      renderPromises = componentsQueue.map(function (componentDOM) {
+	                        return renderComponent((0, _jquery2.default)(componentDOM));
+	                      });
+	                      _context.next = 4;
+	                      return Promise.all(renderPromises);
 
-	          case 4:
-	            quote = _context2.sent;
+	                    case 4:
+	                      components = _context.sent;
+	                      componentsMap = {};
+	                      callbackContext = {
+	                        components: components,
+	                        getComponents: function getComponents() {
+	                          return componentsMap;
+	                        }
+	                      };
+	                      _iteratorNormalCompletion = true;
+	                      _didIteratorError = false;
+	                      _iteratorError = undefined;
+	                      _context.prev = 10;
 
-	            console.log(quote);
-	            _context2.next = 8;
-	            return printMessage('test msg');
 
-	          case 8:
-	            console.log('a message was printed after 2s');
-	            _context2.next = 14;
+	                      for (_iterator = components[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                        c = _step.value;
+	                        ComponentConstructor = c.Component;
+	                        $componentDOM = c.$componentDOM;
+	                        componentId = $componentDOM.attr('id');
+	                        componentInstance = new ComponentConstructor($componentDOM);
+
+
+	                        $componentDOM.data('_impl', componentInstance);
+
+	                        if (componentId) {
+	                          componentsMap[componentId] = componentInstance;
+	                        }
+
+	                        componentInstance.initialize(callbackContext);
+	                      }
+
+	                      _context.next = 18;
+	                      break;
+
+	                    case 14:
+	                      _context.prev = 14;
+	                      _context.t0 = _context['catch'](10);
+	                      _didIteratorError = true;
+	                      _iteratorError = _context.t0;
+
+	                    case 18:
+	                      _context.prev = 18;
+	                      _context.prev = 19;
+
+	                      if (!_iteratorNormalCompletion && _iterator.return) {
+	                        _iterator.return();
+	                      }
+
+	                    case 21:
+	                      _context.prev = 21;
+
+	                      if (!_didIteratorError) {
+	                        _context.next = 24;
+	                        break;
+	                      }
+
+	                      throw _iteratorError;
+
+	                    case 24:
+	                      return _context.finish(21);
+
+	                    case 25:
+	                      return _context.finish(18);
+
+	                    case 26:
+	                      if (typeof callback === 'function') {
+	                        callback(callbackContext);
+	                      }
+
+	                    case 27:
+	                    case 'end':
+	                      return _context.stop();
+	                  }
+	                }
+	              }, _callee, _this, [[10, 14, 18, 26], [19,, 21, 25]]);
+	            })(), 't0', 2);
+
+	          case 2:
+	            _context2.next = 7;
 	            break;
 
-	          case 11:
-	            _context2.prev = 11;
-	            _context2.t0 = _context2['catch'](0);
+	          case 4:
+	            _context2.prev = 4;
+	            _context2.t1 = _context2['catch'](0);
 
-	            console.error(_context2.t0);
+	            console.error(_context2.t1);
 
-	          case 14:
+	          case 7:
 	          case 'end':
 	            return _context2.stop();
 	        }
 	      }
-	    }, _callee2, this, [[0, 11]]);
+	    }, _callee2, this, [[0, 4]]);
 	  }));
 
-	  return function main() {
+	  return function render(_x, _x2) {
 	    return ref.apply(this, arguments);
 	  };
 	}();
 
 	__webpack_require__(14);
 
-	var _isomorphicFetch = __webpack_require__(305);
+	var _jquery = __webpack_require__(4);
 
-	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _requirejs = __webpack_require__(305);
+
+	var _requirejs2 = _interopRequireDefault(_requirejs);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
 
-	function renderComponent() {
+	function renderComponent($componentDOM) {
 	  return new Promise(function (resolve, reject) {
-	    setTimeout(function () {
-	      resolve('Hello World!');
-	    }, 1000);
-	  });
-	}
+	    var renderer = $componentDOM.data('render');
+	    var isCallingAddToRenderQueue = false;
 
-	exports.default = function () {
-	  var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-	    var file;
-	    return regeneratorRuntime.wrap(function _callee$(_context) {
-	      while (1) {
-	        switch (_context.prev = _context.next) {
-	          case 0:
-	            _context.next = 2;
-	            return renderComponent();
+	    (0, _requirejs2.default)([renderer], function (Component) {
+	      var isRendered = $componentDOM.data('rendered');
 
-	          case 2:
-	            file = _context.sent;
-
-	            main();
-	            console.log(file);
-
-	          case 5:
-	          case 'end':
-	            return _context.stop();
-	        }
+	      if (!isRendered) {
+	        Component.render({
+	          get$Html: function get$Html() {
+	            return $componentDOM;
+	          },
+	          getElement: function getElement() {
+	            return $componentDOM;
+	          },
+	          render: function render($el) {},
+	          addToRenderQueue: function addToRenderQueue($el) {
+	            isCallingAddToRenderQueue = true;
+	            render($el, function () {
+	              isCallingAddToRenderQueue = false;
+	              resolve({
+	                Component: Component,
+	                $componentDOM: $componentDOM
+	              });
+	            });
+	          },
+	          complete: function complete() {}
+	        });
+	        $componentDOM.data('rendered', true);
 	      }
-	    }, _callee, this);
-	  }));
 
-	  function render() {
-	    return ref.apply(this, arguments);
-	  }
-
-	  return render;
-	}();
-
-	function getUser(cb) {
-	  return new Promise(function (resolve, reject) {
-	    (0, _isomorphicFetch2.default)('https://randomuser.me/api/').then(function (response) {
-	      return response.json();
-	    }).then(function (quote) {
-	      if (typeof cb === 'function') {
-	        cb(quote);
+	      if (!isCallingAddToRenderQueue) {
+	        resolve({
+	          Component: Component,
+	          $componentDOM: $componentDOM
+	        });
 	      }
-	      resolve(quote);
-	    }).catch(reject);
+	    });
 	  });
 	}
 
-	function printMessage(msg) {
-	  return new Promise(function (resolve) {
-	    setTimeout(function () {
-	      console.log(msg);
-	      resolve(msg);
-	    }, 2000);
+	function createRenderQueue($el) {
+	  var $queue = $el.find('[data-render]');
+
+	  $el.each(function (index, componentDOM) {
+	    var $componentDOM = (0, _jquery2.default)(componentDOM);
+	    var componentRenderer = $componentDOM.data('render');
+
+	    if (componentRenderer) {
+	      $queue = $queue.add($componentDOM);
+	    }
 	  });
+
+	  return $queue.sort(function (a, b) {
+	    var aDepth = (0, _jquery2.default)(a).parentsUntil($el.parent()).length;
+	    var bDepth = (0, _jquery2.default)(b).parentsUntil($el.parent()).length;
+
+	    // If `b` is more deeper than `a` in DOM tree, then it will be placed after `a`
+	    return aDepth - bDepth;
+	  }).toArray();
 	}
 
+	exports.default = render;
 	module.exports = exports['default'];
 
 /***/ },
 /* 305 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// the whatwg-fetch polyfill installs the fetch() function
-	// on the global object (window or self)
-	//
-	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(306);
-	module.exports = self.fetch.bind(self);
-
-
-/***/ },
-/* 306 */
 /***/ function(module, exports) {
 
-	(function(self) {
-	  'use strict';
-
-	  if (self.fetch) {
-	    return
-	  }
-
-	  function normalizeName(name) {
-	    if (typeof name !== 'string') {
-	      name = String(name)
-	    }
-	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
-	      throw new TypeError('Invalid character in header field name')
-	    }
-	    return name.toLowerCase()
-	  }
-
-	  function normalizeValue(value) {
-	    if (typeof value !== 'string') {
-	      value = String(value)
-	    }
-	    return value
-	  }
-
-	  function Headers(headers) {
-	    this.map = {}
-
-	    if (headers instanceof Headers) {
-	      headers.forEach(function(value, name) {
-	        this.append(name, value)
-	      }, this)
-
-	    } else if (headers) {
-	      Object.getOwnPropertyNames(headers).forEach(function(name) {
-	        this.append(name, headers[name])
-	      }, this)
-	    }
-	  }
-
-	  Headers.prototype.append = function(name, value) {
-	    name = normalizeName(name)
-	    value = normalizeValue(value)
-	    var list = this.map[name]
-	    if (!list) {
-	      list = []
-	      this.map[name] = list
-	    }
-	    list.push(value)
-	  }
-
-	  Headers.prototype['delete'] = function(name) {
-	    delete this.map[normalizeName(name)]
-	  }
-
-	  Headers.prototype.get = function(name) {
-	    var values = this.map[normalizeName(name)]
-	    return values ? values[0] : null
-	  }
-
-	  Headers.prototype.getAll = function(name) {
-	    return this.map[normalizeName(name)] || []
-	  }
-
-	  Headers.prototype.has = function(name) {
-	    return this.map.hasOwnProperty(normalizeName(name))
-	  }
-
-	  Headers.prototype.set = function(name, value) {
-	    this.map[normalizeName(name)] = [normalizeValue(value)]
-	  }
-
-	  Headers.prototype.forEach = function(callback, thisArg) {
-	    Object.getOwnPropertyNames(this.map).forEach(function(name) {
-	      this.map[name].forEach(function(value) {
-	        callback.call(thisArg, value, name, this)
-	      }, this)
-	    }, this)
-	  }
-
-	  function consumed(body) {
-	    if (body.bodyUsed) {
-	      return Promise.reject(new TypeError('Already read'))
-	    }
-	    body.bodyUsed = true
-	  }
-
-	  function fileReaderReady(reader) {
-	    return new Promise(function(resolve, reject) {
-	      reader.onload = function() {
-	        resolve(reader.result)
-	      }
-	      reader.onerror = function() {
-	        reject(reader.error)
-	      }
-	    })
-	  }
-
-	  function readBlobAsArrayBuffer(blob) {
-	    var reader = new FileReader()
-	    reader.readAsArrayBuffer(blob)
-	    return fileReaderReady(reader)
-	  }
-
-	  function readBlobAsText(blob) {
-	    var reader = new FileReader()
-	    reader.readAsText(blob)
-	    return fileReaderReady(reader)
-	  }
-
-	  var support = {
-	    blob: 'FileReader' in self && 'Blob' in self && (function() {
-	      try {
-	        new Blob();
-	        return true
-	      } catch(e) {
-	        return false
-	      }
-	    })(),
-	    formData: 'FormData' in self,
-	    arrayBuffer: 'ArrayBuffer' in self
-	  }
-
-	  function Body() {
-	    this.bodyUsed = false
-
-
-	    this._initBody = function(body) {
-	      this._bodyInit = body
-	      if (typeof body === 'string') {
-	        this._bodyText = body
-	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
-	        this._bodyBlob = body
-	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
-	        this._bodyFormData = body
-	      } else if (!body) {
-	        this._bodyText = ''
-	      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
-	        // Only support ArrayBuffers for POST method.
-	        // Receiving ArrayBuffers happens via Blobs, instead.
-	      } else {
-	        throw new Error('unsupported BodyInit type')
-	      }
-
-	      if (!this.headers.get('content-type')) {
-	        if (typeof body === 'string') {
-	          this.headers.set('content-type', 'text/plain;charset=UTF-8')
-	        } else if (this._bodyBlob && this._bodyBlob.type) {
-	          this.headers.set('content-type', this._bodyBlob.type)
-	        }
-	      }
-	    }
-
-	    if (support.blob) {
-	      this.blob = function() {
-	        var rejected = consumed(this)
-	        if (rejected) {
-	          return rejected
-	        }
-
-	        if (this._bodyBlob) {
-	          return Promise.resolve(this._bodyBlob)
-	        } else if (this._bodyFormData) {
-	          throw new Error('could not read FormData body as blob')
-	        } else {
-	          return Promise.resolve(new Blob([this._bodyText]))
-	        }
-	      }
-
-	      this.arrayBuffer = function() {
-	        return this.blob().then(readBlobAsArrayBuffer)
-	      }
-
-	      this.text = function() {
-	        var rejected = consumed(this)
-	        if (rejected) {
-	          return rejected
-	        }
-
-	        if (this._bodyBlob) {
-	          return readBlobAsText(this._bodyBlob)
-	        } else if (this._bodyFormData) {
-	          throw new Error('could not read FormData body as text')
-	        } else {
-	          return Promise.resolve(this._bodyText)
-	        }
-	      }
-	    } else {
-	      this.text = function() {
-	        var rejected = consumed(this)
-	        return rejected ? rejected : Promise.resolve(this._bodyText)
-	      }
-	    }
-
-	    if (support.formData) {
-	      this.formData = function() {
-	        return this.text().then(decode)
-	      }
-	    }
-
-	    this.json = function() {
-	      return this.text().then(JSON.parse)
-	    }
-
-	    return this
-	  }
-
-	  // HTTP methods whose capitalization should be normalized
-	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
-
-	  function normalizeMethod(method) {
-	    var upcased = method.toUpperCase()
-	    return (methods.indexOf(upcased) > -1) ? upcased : method
-	  }
-
-	  function Request(input, options) {
-	    options = options || {}
-	    var body = options.body
-	    if (Request.prototype.isPrototypeOf(input)) {
-	      if (input.bodyUsed) {
-	        throw new TypeError('Already read')
-	      }
-	      this.url = input.url
-	      this.credentials = input.credentials
-	      if (!options.headers) {
-	        this.headers = new Headers(input.headers)
-	      }
-	      this.method = input.method
-	      this.mode = input.mode
-	      if (!body) {
-	        body = input._bodyInit
-	        input.bodyUsed = true
-	      }
-	    } else {
-	      this.url = input
-	    }
-
-	    this.credentials = options.credentials || this.credentials || 'omit'
-	    if (options.headers || !this.headers) {
-	      this.headers = new Headers(options.headers)
-	    }
-	    this.method = normalizeMethod(options.method || this.method || 'GET')
-	    this.mode = options.mode || this.mode || null
-	    this.referrer = null
-
-	    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
-	      throw new TypeError('Body not allowed for GET or HEAD requests')
-	    }
-	    this._initBody(body)
-	  }
-
-	  Request.prototype.clone = function() {
-	    return new Request(this)
-	  }
-
-	  function decode(body) {
-	    var form = new FormData()
-	    body.trim().split('&').forEach(function(bytes) {
-	      if (bytes) {
-	        var split = bytes.split('=')
-	        var name = split.shift().replace(/\+/g, ' ')
-	        var value = split.join('=').replace(/\+/g, ' ')
-	        form.append(decodeURIComponent(name), decodeURIComponent(value))
-	      }
-	    })
-	    return form
-	  }
-
-	  function headers(xhr) {
-	    var head = new Headers()
-	    var pairs = xhr.getAllResponseHeaders().trim().split('\n')
-	    pairs.forEach(function(header) {
-	      var split = header.trim().split(':')
-	      var key = split.shift().trim()
-	      var value = split.join(':').trim()
-	      head.append(key, value)
-	    })
-	    return head
-	  }
-
-	  Body.call(Request.prototype)
-
-	  function Response(bodyInit, options) {
-	    if (!options) {
-	      options = {}
-	    }
-
-	    this.type = 'default'
-	    this.status = options.status
-	    this.ok = this.status >= 200 && this.status < 300
-	    this.statusText = options.statusText
-	    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
-	    this.url = options.url || ''
-	    this._initBody(bodyInit)
-	  }
-
-	  Body.call(Response.prototype)
-
-	  Response.prototype.clone = function() {
-	    return new Response(this._bodyInit, {
-	      status: this.status,
-	      statusText: this.statusText,
-	      headers: new Headers(this.headers),
-	      url: this.url
-	    })
-	  }
-
-	  Response.error = function() {
-	    var response = new Response(null, {status: 0, statusText: ''})
-	    response.type = 'error'
-	    return response
-	  }
-
-	  var redirectStatuses = [301, 302, 303, 307, 308]
-
-	  Response.redirect = function(url, status) {
-	    if (redirectStatuses.indexOf(status) === -1) {
-	      throw new RangeError('Invalid status code')
-	    }
-
-	    return new Response(null, {status: status, headers: {location: url}})
-	  }
-
-	  self.Headers = Headers;
-	  self.Request = Request;
-	  self.Response = Response;
-
-	  self.fetch = function(input, init) {
-	    return new Promise(function(resolve, reject) {
-	      var request
-	      if (Request.prototype.isPrototypeOf(input) && !init) {
-	        request = input
-	      } else {
-	        request = new Request(input, init)
-	      }
-
-	      var xhr = new XMLHttpRequest()
-
-	      function responseURL() {
-	        if ('responseURL' in xhr) {
-	          return xhr.responseURL
-	        }
-
-	        // Avoid security warnings on getResponseHeader when not allowed by CORS
-	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
-	          return xhr.getResponseHeader('X-Request-URL')
-	        }
-
-	        return;
-	      }
-
-	      xhr.onload = function() {
-	        var status = (xhr.status === 1223) ? 204 : xhr.status
-	        if (status < 100 || status > 599) {
-	          reject(new TypeError('Network request failed'))
-	          return
-	        }
-	        var options = {
-	          status: status,
-	          statusText: xhr.statusText,
-	          headers: headers(xhr),
-	          url: responseURL()
-	        }
-	        var body = 'response' in xhr ? xhr.response : xhr.responseText;
-	        resolve(new Response(body, options))
-	      }
-
-	      xhr.onerror = function() {
-	        reject(new TypeError('Network request failed'))
-	      }
-
-	      xhr.open(request.method, request.url, true)
-
-	      if (request.credentials === 'include') {
-	        xhr.withCredentials = true
-	      }
-
-	      if ('responseType' in xhr && support.blob) {
-	        xhr.responseType = 'blob'
-	      }
-
-	      request.headers.forEach(function(value, name) {
-	        xhr.setRequestHeader(name, value)
-	      })
-
-	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
-	    })
-	  }
-	  self.fetch.polyfill = true
-	})(typeof self !== 'undefined' ? self : this);
-
+	module.exports = __WEBPACK_EXTERNAL_MODULE_305__;
 
 /***/ }
 /******/ ])
