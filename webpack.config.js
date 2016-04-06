@@ -16,7 +16,7 @@ module.exports = {
     library: 'ActiveShareLib',
     libraryTarget: 'umd'
   },
-  // `externals` allows you to specify dependencies for your library that are not resolved by webpack, 
+  // `externals` allows you to specify dependencies for your library that are not resolved by webpack,
   // but become dependencies of the output. This means they are imported from the environment during runtime.
   externals: {
     "jquery": "jquery",
@@ -29,7 +29,15 @@ module.exports = {
     extensions: ["", ".js"],
     modulesDirectories: ["src", "node_modules"]
   },
+  eslint: {
+    configFile: path.join(__dirname, 'src') + '/.eslintrc-es6'
+  },
   module: {
+    preLoaders: [{
+      test: /\.js$/,
+      loader: 'eslint-loader',
+      exclude: /(node_modules|bower_components)/
+    }],
     loaders: [{
       test: /\.jsx?$/,
       exclude: /(node_modules|bower_components)/,

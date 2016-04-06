@@ -11,6 +11,9 @@ require('webpack')(
 
     debug('Webpack compile completed.');
     debug(stats.toString({
+      timings: true,
+      reasons: true,
+      // modules: true,
       chunks: false,
       chunkModules: false,
       colors: true
