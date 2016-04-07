@@ -12,8 +12,8 @@ test('BackboneBaseView#getTemplate', function (t) {
   });
 
   let baseView = new BaseView();
-  t.equal(typeof baseView.getTemplate, 'function');
-  t.equal(baseView.getTemplate()(), tpl);
+  t.equal(typeof baseView.getTemplate, 'function', 'baseView.getTemplate is function');
+  t.equal(baseView.getTemplate()(), tpl, 'We could call baseView.getTemplate fucntion to get template string');
 });
 
 test('BackboneBaseView#render', function (t) {
@@ -32,6 +32,6 @@ test('BackboneBaseView#render', function (t) {
 
   baseView.render();
 
-  t.equal(typeof baseView.render, 'function');
-  t.equal(baseView.$el.html(), tpl);
+  t.equal(typeof baseView.render, 'function', 'baseview.render is function');
+  t.equal(baseView.$el.html(), tpl, 'We could get the generated HTML through calling render method');
 });
